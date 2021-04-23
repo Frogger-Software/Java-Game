@@ -1,7 +1,7 @@
 # CSC 413 Term Project README
 
-Name:
+Name: Ze Lei
 
-Email:
+Email: zlei1@mail.sfsu.edu
 
 Extra Features:
