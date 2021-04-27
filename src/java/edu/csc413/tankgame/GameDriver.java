@@ -58,22 +58,22 @@ public class GameDriver {
                 Constants.PLAYER_TANK_INITIAL_X,
                 Constants.PLAYER_TANK_INITIAL_Y,
                 Constants.PLAYER_TANK_INITIAL_ANGLE);
-        runGameView.addSprite(Constants.PLAYER_TANK_ID,
+        runGameView.addSprite(player.getId(),
                 RunGameView.PLAYER_TANK_IMAGE_FILE,
-                Constants.PLAYER_TANK_INITIAL_X,
-                Constants.PLAYER_TANK_INITIAL_Y,
-                Constants.PLAYER_TANK_INITIAL_ANGLE);
+                player.getX(),
+                player.getY(),
+                player.getAngle());
         gameWorld.addEntity(player);
 
         Tank AI1 = new AiTank(Constants.AI_TANK_1_ID,
                 Constants.AI_TANK_1_INITIAL_X,
                 Constants.AI_TANK_1_INITIAL_Y,
                 Constants.AI_TANK_1_INITIAL_ANGLE);
-        runGameView.addSprite(Constants.AI_TANK_1_ID,
+        runGameView.addSprite(AI1.getId(),
                 RunGameView.AI_TANK_IMAGE_FILE,
-                Constants.AI_TANK_1_INITIAL_X,
-                Constants.AI_TANK_1_INITIAL_Y,
-                Constants.AI_TANK_1_INITIAL_ANGLE);
+                AI1.getX(),
+                AI1.getY(),
+                AI1.getAngle());
         gameWorld.addEntity(AI1);
     }
 
@@ -84,9 +84,23 @@ public class GameDriver {
      */
     private boolean updateGame() {
         // TODO: Implement.
-        for(Entity entity: gameWorld.getEntities()){
+        ArrayList<Entity> oldList = new ArrayList<>(gameWorld.getEntities());
+        for(Entity entity: oldList){
             entity.move(gameWorld);
         }
+
+        //#1. make a copy
+        for (Entity entity: gameWorld.getEntities()){
+            if(!oldList.contains(entity)){
+                runGameView.addSprite(
+                        entity.getId(),
+                        RunGameView.SHELL_IMAGE_FILE,
+                        entity.getX(),
+                        entity.getY(),
+                        entity.getAngle());
+            }
+        }
+        //#2. temporary list in addEntity
 
         for(Entity entity: gameWorld.getEntities()){
             runGameView.setSpriteLocationAndAngle(

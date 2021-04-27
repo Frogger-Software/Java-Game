@@ -19,7 +19,11 @@ public class GameWorld {
     /** Returns a list of all entities in the game. */
     public List<Entity> getEntities() {
         // TODO: Implement.
-        return (List<Entity>) entityHashMap.values();
+        List<Entity> entities = new ArrayList<>();
+        for(Entity entity: entityHashMap.values()){
+            entities.add(entity);
+        }
+        return entities;
     }
 
     /** Adds a new entity to the game. */

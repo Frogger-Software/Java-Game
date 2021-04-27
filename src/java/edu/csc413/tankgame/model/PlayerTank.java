@@ -24,7 +24,9 @@ public class PlayerTank extends Tank {
             moveBackward(Constants.TANK_MOVEMENT_SPEED);
         }
         if(keyboard.spacePressed()){
-            gameWorld.addEntity(new Shell(getShellX(), getShellY(), getShellAngle()));
+            fireShell(gameWorld);
         }
     }
+
+
 }

@@ -4,6 +4,7 @@ import edu.csc413.tankgame.Constants;
 
 /** Entity class representing all tanks in the game. */
 public abstract class Tank extends Entity {
+    private int shellNumber = 0;
     // TODO: Implement. A lot of what's below is relevant to all Entity types, not just Tanks. Move it accordingly to
     //       Entity class.
 
@@ -14,12 +15,7 @@ public abstract class Tank extends Entity {
     // TODO: The methods below are provided so you don't have to do the math for movement. You should call these methods
     //       from the various subclasses of Entity in their implementations of move.
 
-    protected void moveForward(double movementSpeed) {
-        setX(getX() + movementSpeed * Math.cos(getAngle()));
-        setY(getY() + movementSpeed * Math.sin(getAngle()));
-//        x += movementSpeed * Math.cos(angle);
-//        y += movementSpeed * Math.sin(angle);
-    }
+
 
     protected void moveBackward(double movementSpeed) {
         setX(getX() - movementSpeed * Math.cos(getAngle()));
@@ -53,4 +49,13 @@ public abstract class Tank extends Entity {
     protected double getShellAngle() {
         return getAngle();
     }
+
+    protected void fireShell(GameWorld gameWorld){
+        Shell shell = new Shell(getId() + "-shell-" + shellNumber,getShellX(),getShellY(),getShellAngle());
+        gameWorld.addEntity(shell);
+        shellNumber++;
+    }
+
+    //protected int getShellNumber(){return shellNumber;}
+    //protected void setShellNumber(int x){shellNumber = x;}
 }

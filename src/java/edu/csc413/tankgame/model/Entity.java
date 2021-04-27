@@ -44,4 +44,11 @@ public abstract class Entity {
     }
     /** All entities can move, even if the details of their move logic may vary based on the specific type of Entity. */
     public abstract void move(GameWorld gameWorld);
+
+    protected void moveForward(double movementSpeed) {
+        setX(getX() + movementSpeed * Math.cos(getAngle()));
+        setY(getY() + movementSpeed * Math.sin(getAngle()));
+        //x += movementSpeed * Math.cos(angle);
+        //y += movementSpeed * Math.sin(angle);
+    }
 }
