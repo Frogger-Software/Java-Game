@@ -4,14 +4,18 @@ import edu.csc413.tankgame.model.*;
 import edu.csc413.tankgame.view.*;
 
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameDriver {
     private final MainView mainView;
     private final RunGameView runGameView;
+    private final GameWorld gameWorld;
 
     public GameDriver() {
         mainView = new MainView(this::startMenuActionPerformed);
         runGameView = mainView.getRunGameView();
+        gameWorld = new GameWorld();
     }
 
     public void start() {
@@ -50,6 +54,27 @@ public class GameDriver {
      */
     private void setUpGame() {
         // TODO: Implement.
+        Tank player = new PlayerTank(Constants.PLAYER_TANK_ID,
+                Constants.PLAYER_TANK_INITIAL_X,
+                Constants.PLAYER_TANK_INITIAL_Y,
+                Constants.PLAYER_TANK_INITIAL_ANGLE);
+        runGameView.addSprite(Constants.PLAYER_TANK_ID,
+                RunGameView.PLAYER_TANK_IMAGE_FILE,
+                Constants.PLAYER_TANK_INITIAL_X,
+                Constants.PLAYER_TANK_INITIAL_Y,
+                Constants.PLAYER_TANK_INITIAL_ANGLE);
+        gameWorld.addEntity(player);
+
+        Tank AI1 = new AiTank(Constants.AI_TANK_1_ID,
+                Constants.AI_TANK_1_INITIAL_X,
+                Constants.AI_TANK_1_INITIAL_Y,
+                Constants.AI_TANK_1_INITIAL_ANGLE);
+        runGameView.addSprite(Constants.AI_TANK_1_ID,
+                RunGameView.AI_TANK_IMAGE_FILE,
+                Constants.AI_TANK_1_INITIAL_X,
+                Constants.AI_TANK_1_INITIAL_Y,
+                Constants.AI_TANK_1_INITIAL_ANGLE);
+        gameWorld.addEntity(AI1);
     }
 
     /**
@@ -59,6 +84,17 @@ public class GameDriver {
      */
     private boolean updateGame() {
         // TODO: Implement.
+        for(Entity entity: gameWorld.getEntities()){
+            entity.move(gameWorld);
+        }
+
+        for(Entity entity: gameWorld.getEntities()){
+            runGameView.setSpriteLocationAndAngle(
+                    entity.getId(),
+                    entity.getX(),
+                    entity.getY(),
+                    entity.getAngle());
+        }
         return true;
     }
 

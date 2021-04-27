@@ -9,30 +9,34 @@ import java.util.*;
 public class GameWorld {
     // TODO: Implement. There's a lot of information the GameState will need to store to provide contextual information.
     //       Add whatever instance variables, constructors, and methods are needed.
+    HashMap<String, Entity> entityHashMap;
 
     public GameWorld() {
         // TODO: Implement.
+        entityHashMap = new HashMap<>();
     }
 
     /** Returns a list of all entities in the game. */
     public List<Entity> getEntities() {
         // TODO: Implement.
-        return null;
+        return (List<Entity>) entityHashMap.values();
     }
 
     /** Adds a new entity to the game. */
-    public void addEntity(Tank entity) {
+    public void addEntity(Entity entity) {
         // TODO: Implement.
+        entityHashMap.put(entity.getId(), entity);
     }
 
     /** Returns the Entity with the specified ID. */
     public Entity getEntity(String id) {
         // TODO: Implement.
-        return null;
+        return entityHashMap.get(id);
     }
 
     /** Removes the entity with the specified ID from the game. */
     public void removeEntity(String id) {
         // TODO: Implement.
+        entityHashMap.remove(id);
     }
 }
