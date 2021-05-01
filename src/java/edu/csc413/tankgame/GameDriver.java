@@ -53,6 +53,12 @@ public class GameDriver {
      */
     private void setUpGame() {
         // TODO: Implement.
+        for(int i = 0; i < WallInformation.readWalls().size(); i++){//using i for unique id
+            WallInformation wall = WallInformation.readWalls().get(i);
+            Wall E = new Wall(wall.getImageFile() + i, wall.getX(), wall.getY());
+            runGameView.addSprite(E.getId(), wall.getImageFile(),E.getX(),E.getY(), E.getAngle());
+            gameWorld.addEntity(E);
+        }
         Tank player = new PlayerTank(Constants.PLAYER_TANK_ID,
                 Constants.PLAYER_TANK_INITIAL_X,
                 Constants.PLAYER_TANK_INITIAL_Y,
