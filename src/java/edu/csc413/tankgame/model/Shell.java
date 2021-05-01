@@ -1,6 +1,7 @@
 package edu.csc413.tankgame.model;
 
 import edu.csc413.tankgame.Constants;
+import edu.csc413.tankgame.view.RunGameView;
 
 public class Shell extends Entity{
     protected Shell(String id, double x, double y, double angle) {
@@ -20,5 +21,11 @@ public class Shell extends Entity{
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void boundaryBehavior(GameWorld gameWorld, RunGameView runGameView) {
+        gameWorld.removeEntity(getId());
+        runGameView.removeSprite(getId());
     }
 }

@@ -112,9 +112,13 @@ public class GameDriver {
 //            }
 //        }
         //#2. temporary list in addEntity
-        for (Entity entity : gameWorld.getEntities()) {
+        for (Entity entity : new ArrayList<>(gameWorld.getEntities())) {
             entity.move(gameWorld);
+            if(entity.outOfBounds(gameWorld)){
+                entity.boundaryBehavior(gameWorld, runGameView);
+            }
         }
+
         while (!gameWorld.getShellQueue().isEmpty()) {
             Shell shell = gameWorld.getShellQueue().poll();
             gameWorld.addEntity(shell);

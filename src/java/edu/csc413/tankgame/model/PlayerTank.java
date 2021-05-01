@@ -10,6 +10,7 @@ public class PlayerTank extends Tank {
 
     @Override
     public void move(GameWorld gameWorld) {
+        decrementCooldown();
         KeyboardReader keyboard = KeyboardReader.instance();
         if(keyboard.leftPressed()){
             turnLeft(Constants.TANK_TURN_SPEED);

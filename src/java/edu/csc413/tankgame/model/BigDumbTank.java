@@ -10,11 +10,9 @@ public class BigDumbTank extends Tank{
 
     @Override
     public void move(GameWorld gameWorld) {
+        decrementCooldown();
         moveForward(Constants.TANK_MOVEMENT_SPEED);
         turnLeft(Constants.TANK_TURN_SPEED);
-        shellLimit++;
-        if(shellLimit % 20 == 0){
-            fireShell(gameWorld);
-        }
+        fireShell(gameWorld);
     }
 }

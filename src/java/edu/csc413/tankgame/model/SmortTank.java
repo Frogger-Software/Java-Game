@@ -9,6 +9,7 @@ public class SmortTank extends Tank {
 
     @Override
     public void move(GameWorld gameWorld) {
+        decrementCooldown();
         //Code by Dawson Zhou
         Entity playerTank = gameWorld.getEntity(Constants.PLAYER_TANK_ID);
         // To figure out what angle the AI tank needs to face, we'll use the
@@ -17,6 +18,7 @@ public class SmortTank extends Tank {
         double dy = playerTank.getY() - getY();
         // atan2 applies arctangent to the ratio of the two provided values.
         double angleToPlayer = Math.atan2(dy, dx);
+
         double angleDifference = getAngle() - angleToPlayer;
         // We want to keep the angle difference between -180 degrees and 180
         // degrees for the next step. This ensures that anything outside of that
