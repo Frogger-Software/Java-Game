@@ -27,5 +27,10 @@ public class Shell extends Entity{
     public void boundaryBehavior(GameWorld gameWorld, RunGameView runGameView) {
         gameWorld.removeEntity(getId());
         runGameView.removeSprite(getId());
+        runGameView.addAnimation(
+                RunGameView.SHELL_EXPLOSION_ANIMATION,
+                RunGameView.SHELL_EXPLOSION_FRAME_DELAY,
+                getX(),
+                getY());
     }
 }
