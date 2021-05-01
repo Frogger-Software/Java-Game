@@ -9,11 +9,13 @@ import java.util.*;
 public class GameWorld {
     // TODO: Implement. There's a lot of information the GameState will need to store to provide contextual information.
     //       Add whatever instance variables, constructors, and methods are needed.
-    HashMap<String, Entity> entityHashMap;
+    private HashMap<String, Entity> entityHashMap;
+    private Queue<Shell> shellQueue;
 
     public GameWorld() {
         // TODO: Implement.
         entityHashMap = new HashMap<>();
+        shellQueue = new ArrayDeque<>();
     }
 
     /** Returns a list of all entities in the game. */
@@ -26,10 +28,18 @@ public class GameWorld {
         return entities;
     }
 
+    public Queue<Shell> getShellQueue(){
+        return shellQueue;
+    }
+
     /** Adds a new entity to the game. */
     public void addEntity(Entity entity) {
         // TODO: Implement.
         entityHashMap.put(entity.getId(), entity);
+    }
+
+    public void queueShell(Shell shell){
+        shellQueue.add(shell);
     }
 
     /** Returns the Entity with the specified ID. */

@@ -52,7 +52,7 @@ public abstract class Tank extends Entity {
 
     protected void fireShell(GameWorld gameWorld){
         Shell shell = new Shell(getId() + "-shell-" + shellNumber,getShellX(),getShellY(),getShellAngle());
-        gameWorld.addEntity(shell);
+        gameWorld.queueShell(shell);
         shellNumber++;
     }
 

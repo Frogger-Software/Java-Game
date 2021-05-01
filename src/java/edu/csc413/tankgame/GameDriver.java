@@ -5,7 +5,6 @@ import edu.csc413.tankgame.view.*;
 
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-import java.util.List;
 
 public class GameDriver {
     private final MainView mainView;
@@ -65,7 +64,7 @@ public class GameDriver {
                 player.getAngle());
         gameWorld.addEntity(player);
 
-        Tank AI1 = new AiTank(Constants.AI_TANK_1_ID,
+        Tank AI1 = new BigDumbTank(Constants.AI_TANK_1_ID,
                 Constants.AI_TANK_1_INITIAL_X,
                 Constants.AI_TANK_1_INITIAL_Y,
                 Constants.AI_TANK_1_INITIAL_ANGLE);
@@ -75,6 +74,17 @@ public class GameDriver {
                 AI1.getY(),
                 AI1.getAngle());
         gameWorld.addEntity(AI1);
+
+        Tank AI2 = new SmortTank(Constants.AI_TANK_2_ID,
+                Constants.AI_TANK_2_INITIAL_X,
+                Constants.AI_TANK_2_INITIAL_Y,
+                Constants.AI_TANK_2_INITIAL_ANGLE);
+        runGameView.addSprite(AI2.getId(),
+                RunGameView.AI_TANK_IMAGE_FILE,
+                AI2.getX(),
+                AI2.getY(),
+                AI2.getAngle());
+        gameWorld.addEntity(AI2);
     }
 
     /**
@@ -84,25 +94,40 @@ public class GameDriver {
      */
     private boolean updateGame() {
         // TODO: Implement.
-        ArrayList<Entity> oldList = new ArrayList<>(gameWorld.getEntities());
-        for(Entity entity: oldList){
-            entity.move(gameWorld);
-        }
 
         //#1. make a copy
-        for (Entity entity: gameWorld.getEntities()){
-            if(!oldList.contains(entity)){
-                runGameView.addSprite(
-                        entity.getId(),
-                        RunGameView.SHELL_IMAGE_FILE,
-                        entity.getX(),
-                        entity.getY(),
-                        entity.getAngle());
-            }
-        }
+//        ArrayList<Entity> oldList = new ArrayList<>(gameWorld.getEntities());
+//        for(Entity entity: oldList){
+//            entity.move(gameWorld);
+//        }
+//
+//        for (Entity entity: gameWorld.getEntities()){
+//            if(!oldList.contains(entity)){
+//                runGameView.addSprite(
+//                        entity.getId(),
+//                        RunGameView.SHELL_IMAGE_FILE,
+//                        entity.getX(),
+//                        entity.getY(),
+//                        entity.getAngle());
+//            }
+//        }
         //#2. temporary list in addEntity
+        for (Entity entity : gameWorld.getEntities()) {
+            entity.move(gameWorld);
+        }
+        while (!gameWorld.getShellQueue().isEmpty()) {
+            Shell shell = gameWorld.getShellQueue().poll();
+            gameWorld.addEntity(shell);
+            runGameView.addSprite(
+                    shell.getId(),
+                    RunGameView.SHELL_IMAGE_FILE,
+                    shell.getX(),
+                    shell.getY(),
+                    shell.getAngle()
+            );
+        }
 
-        for(Entity entity: gameWorld.getEntities()){
+        for (Entity entity : gameWorld.getEntities()) {
             runGameView.setSpriteLocationAndAngle(
                     entity.getId(),
                     entity.getX(),
