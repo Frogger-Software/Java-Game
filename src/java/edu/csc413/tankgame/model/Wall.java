@@ -13,7 +13,12 @@ public class Wall extends Entity{
     }
 
     @Override
-    public boolean outOfBounds(GameWorld gameWorld) {
+    public boolean outOfBoundsX(GameWorld gameWorld) {
+        return false;
+    }
+
+    @Override
+    public boolean outOfBoundsY(GameWorld gameWorld) {
         return false;
     }
 

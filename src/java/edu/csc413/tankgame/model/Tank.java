@@ -7,7 +7,8 @@ import edu.csc413.tankgame.view.RunGameView;
 public abstract class Tank extends Entity {
     private int shellNumber = 0;
     private int shellCooldown = 0;
-    private int boundary = 0;
+    private int boundaryX = 0;
+    private int boundaryY = 0;
     // TODO: Implement. A lot of what's below is relevant to all Entity types, not just Tanks. Move it accordingly to
     //       Entity class.
 
@@ -67,33 +68,41 @@ public abstract class Tank extends Entity {
     }
 
     @Override
-    public boolean outOfBounds(GameWorld gameWorld) {
+    public boolean outOfBoundsX(GameWorld gameWorld) {
         if(getX() < Constants.TANK_X_LOWER_BOUND){
-            boundary = 1;
+            boundaryX = 1;
             return true;
         }
         if(getX() > Constants.TANK_X_UPPER_BOUND){
-            boundary = 2;
+            boundaryX = 2;
             return true;
         }
+        boundaryX = 0;
+        return false;
+    }
+
+    public boolean outOfBoundsY(GameWorld gameWorld){
         if(getY() < Constants.TANK_Y_LOWER_BOUND){
-            boundary = 3;
+            boundaryY = 1;
             return true;
         }
         if(getY() > Constants.TANK_Y_UPPER_BOUND){
-            boundary = 4;
+            boundaryY = 2;
             return true;
         }
+        boundaryY = 0;
         return false;
     }
 
     @Override
     public void boundaryBehavior(GameWorld gameWorld, RunGameView runGameView) {
-        switch (boundary){
+        switch (boundaryX){
             case 1 -> setX(Constants.TANK_X_LOWER_BOUND);
             case 2 -> setX(Constants.TANK_X_UPPER_BOUND);
-            case 3 -> setY(Constants.TANK_Y_LOWER_BOUND);
-            case 4 -> setY(Constants.TANK_Y_UPPER_BOUND);
+        }
+        switch (boundaryY){
+            case 1 -> setY(Constants.TANK_Y_LOWER_BOUND);
+            case 2 -> setY(Constants.TANK_Y_UPPER_BOUND);
         }
 
     }

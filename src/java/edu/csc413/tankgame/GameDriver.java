@@ -120,7 +120,7 @@ public class GameDriver {
         //#2. temporary list in addEntity
         for (Entity entity : new ArrayList<>(gameWorld.getEntities())) {
             entity.move(gameWorld);
-            if(entity.outOfBounds(gameWorld)){
+            if(entity.outOfBoundsX(gameWorld) || entity.outOfBoundsY(gameWorld)){
                 entity.boundaryBehavior(gameWorld, runGameView);
             }
         }

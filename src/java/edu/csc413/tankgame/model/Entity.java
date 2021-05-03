@@ -55,7 +55,9 @@ public abstract class Entity {
     }
 
 
-    public abstract boolean outOfBounds(GameWorld gameWorld);
+    public abstract boolean outOfBoundsX(GameWorld gameWorld);
+
+    public abstract boolean outOfBoundsY(GameWorld gameWorld);
 
     public abstract void boundaryBehavior(GameWorld gameWorld, RunGameView runGameView);
 }
