@@ -37,7 +37,7 @@ public class SmortTank extends Tank {
             turnLeft(Constants.TANK_TURN_SPEED);
         }
         //end of Dawson Zhou's code
-        moveForward(Constants.TANK_MOVEMENT_SPEED/2);
+        moveForward(Constants.TANK_MOVEMENT_SPEED/2);//too fast
         fireShell(gameWorld);
     }
 
