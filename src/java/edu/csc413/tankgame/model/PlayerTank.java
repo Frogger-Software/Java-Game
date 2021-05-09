@@ -2,10 +2,12 @@ package edu.csc413.tankgame.model;
 
 import edu.csc413.tankgame.Constants;
 import edu.csc413.tankgame.KeyboardReader;
+import edu.csc413.tankgame.view.RunGameView;
 
 public class PlayerTank extends Tank {
     public PlayerTank(String id, double x, double y, double angle) {
         super(id, x, y, angle);
+        setHealth(10);
     }
 
     @Override
@@ -27,7 +29,16 @@ public class PlayerTank extends Tank {
         if(keyboard.spacePressed()){
             fireShell(gameWorld);
         }
+        if(keyboard.escapePressed()){
+            gameWorld.endGame();
+        }
     }
 
-
+    @Override
+    public void takeDamage(GameWorld gameWorld, RunGameView runGameView){
+        decrementHealth();
+        if(getHealth() == 0){
+            gameWorld.endGame();
+        }
+    }
 }

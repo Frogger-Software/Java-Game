@@ -11,16 +11,18 @@ public class GameWorld {
     //       Add whatever instance variables, constructors, and methods are needed.
     private HashMap<String, Entity> entityHashMap;
     private Queue<Shell> shellQueue;
+    private boolean endGame;
 
     public GameWorld() {
         // TODO: Implement.
         entityHashMap = new HashMap<>();
         shellQueue = new ArrayDeque<>();
+        endGame = false;
     }
 
     /** Returns a list of all entities in the game. */
     public List<Entity> getEntities() {
-        // TODO: Implement.
+        // TODO: Implement. - finished
         List<Entity> entities = new ArrayList<>();
         for(Entity entity: entityHashMap.values()){
             entities.add(entity);
@@ -34,7 +36,7 @@ public class GameWorld {
 
     /** Adds a new entity to the game. */
     public void addEntity(Entity entity) {
-        // TODO: Implement.
+        // TODO: Implement. - finished
         entityHashMap.put(entity.getId(), entity);
     }
 
@@ -44,13 +46,23 @@ public class GameWorld {
 
     /** Returns the Entity with the specified ID. */
     public Entity getEntity(String id) {
-        // TODO: Implement.
+        // TODO: Implement. - finished
         return entityHashMap.get(id);
     }
 
     /** Removes the entity with the specified ID from the game. */
     public void removeEntity(String id) {
-        // TODO: Implement.
+        // TODO: Implement. - finished
         entityHashMap.remove(id);
+    }
+
+    public void endGame(){
+        endGame = true;
+        entityHashMap.clear();
+        shellQueue.clear();
+    }
+
+    public boolean getEndGame(){
+        return endGame;
     }
 }

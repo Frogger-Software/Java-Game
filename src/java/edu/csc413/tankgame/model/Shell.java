@@ -32,6 +32,10 @@ public class Shell extends Entity {
 
     @Override
     public void boundaryBehavior(GameWorld gameWorld, RunGameView runGameView) {
+        removeShell(gameWorld, runGameView);
+    }
+
+    public void removeShell(GameWorld gameWorld, RunGameView runGameView){
         gameWorld.removeEntity(getId());
         runGameView.removeSprite(getId());
         runGameView.addAnimation(
@@ -39,5 +43,15 @@ public class Shell extends Entity {
                 RunGameView.SHELL_EXPLOSION_FRAME_DELAY,
                 getX(),
                 getY());
+    }
+
+    @Override
+    public double getXBound() {
+        return getX() + Constants.SHELL_WIDTH;
+    }
+
+    @Override
+    public double getYBound() {
+        return getY() + Constants.SHELL_HEIGHT;
     }
 }

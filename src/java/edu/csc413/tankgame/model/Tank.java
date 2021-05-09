@@ -9,8 +9,9 @@ public abstract class Tank extends Entity {
     private int shellCooldown = 0;
     private int boundaryX = 0;
     private int boundaryY = 0;
+    private int health = 2;
     // TODO: Implement. A lot of what's below is relevant to all Entity types, not just Tanks. Move it accordingly to
-    //       Entity class.
+    //       Entity class. - finished
 
     public Tank(String id, double x, double y, double angle) {
         super(id, x, y, angle);
@@ -105,5 +106,35 @@ public abstract class Tank extends Entity {
             case 2 -> setY(Constants.TANK_Y_UPPER_BOUND);
         }
 
+    }
+
+    @Override
+    public double getXBound() {
+        return getX() + Constants.TANK_WIDTH;
+    }
+
+    @Override
+    public double getYBound() {
+        return getY() + Constants.TANK_HEIGHT;
+    }
+
+    public void takeDamage(GameWorld gameWorld, RunGameView runGameView){
+        health--;
+        if(health == 0){
+            gameWorld.removeEntity(getId());
+            runGameView.removeSprite(getId());
+        }
+    }
+
+    protected void decrementHealth(){
+        health--;
+    }
+
+    protected void setHealth(int x){
+        health = x;
+    }
+
+    protected int getHealth(){
+        return health;
     }
 }

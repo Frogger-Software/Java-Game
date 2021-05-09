@@ -60,4 +60,15 @@ public abstract class Entity {
     public abstract boolean outOfBoundsY(GameWorld gameWorld);
 
     public abstract void boundaryBehavior(GameWorld gameWorld, RunGameView runGameView);
+
+    public abstract double getXBound();
+
+    public abstract double getYBound();
+
+    public boolean entitiesOverlap(Entity entity2){
+        return (getX() < entity2.getXBound()) &&
+                (getXBound() > entity2.getX()) &&
+                (getY() < entity2.getYBound()) &&
+                (getYBound() > entity2.getY());
+    }
 }
