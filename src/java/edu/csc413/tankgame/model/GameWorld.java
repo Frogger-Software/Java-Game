@@ -22,15 +22,15 @@ public class GameWorld {
         endGame = false;
     }
 
-    public void registerEnemy(Tank a){
+    public void registerEnemy(Tank a) {
         tankQueue.add(a);
     }
 
-    public void deleteEnemy(Tank a){
+    public void deleteEnemy(Tank a) {
         tankQueue.remove(a);
     }
 
-    public Queue<Tank> getTankQueue(){
+    public Queue<Tank> getTankQueue() {
         return tankQueue;
     }
 
@@ -74,21 +74,10 @@ public class GameWorld {
         entityHashMap.remove(id);
     }
 
-    public void endGame() {//case 0 - game over, case 1 -  winner, case 2 - 2nd place
+    public void endGame() {
         endGame = true;
         entityHashMap.clear();
         shellQueue.clear();
-//        switch (won){
-//            case 0 -> {
-//
-//            }
-//            case 1 -> {
-//
-//            }
-//            case 2 -> {
-//
-//            }
-//        }
     }
 
     public boolean getEndGame() {

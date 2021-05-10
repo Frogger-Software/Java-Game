@@ -60,7 +60,7 @@ public abstract class Tank extends Entity {
     protected void fireShell(GameWorld gameWorld) {
         if (shellCooldown == 0) {
             Shell shell;
-            if(unleashPower){
+            if (unleashPower) {
                 shell = new SmartShell(getId() + "-smart-shell-" + shellNumber,
                         getShellX(),
                         getShellY(),
@@ -131,11 +131,11 @@ public abstract class Tank extends Entity {
         return getY() + Constants.TANK_HEIGHT;
     }
 
-    public void gainPower(){
+    public void gainPower() {
         unleashPower = true;
     }
 
-    protected void setUser(String s){
+    protected void setUser(String s) {
         this.user = s;
     }
 }

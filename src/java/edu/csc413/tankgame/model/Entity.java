@@ -56,8 +56,6 @@ public abstract class Entity {
     protected void moveForward(double movementSpeed) {
         setX(getX() + movementSpeed * Math.cos(getAngle()));
         setY(getY() + movementSpeed * Math.sin(getAngle()));
-        //x += movementSpeed * Math.cos(angle);
-        //y += movementSpeed * Math.sin(angle);
     }
 
 
@@ -97,5 +95,22 @@ public abstract class Entity {
                     getX(),
                     getY());
         }
+    }
+
+    protected double tracker(GameWorld gameWorld, Entity tracked){
+        double dx = tracked.getX() - getX();
+        double dy = tracked.getY() - getY();
+        // atan2 applies arctangent to the ratio of the two provided values.
+        double angleToPlayer = Math.atan2(dy, dx);
+
+        double angleDifference = getAngle() - angleToPlayer;
+        // We want to keep the angle difference between -180 degrees and 180
+        // degrees for the next step. This ensures that anything outside of that
+        // range is adjusted by 360 degrees at a time until it is, so that the
+        // angle is still equivalent.
+        angleDifference -= Math.floor(angleDifference
+                / Math.toRadians(360.0) + 0.5)
+                * Math.toRadians(360.0);
+        return angleDifference;
     }
 }

@@ -6,7 +6,6 @@ import edu.csc413.tankgame.view.*;
 import java.awt.event.ActionEvent;
 import java.util.HashSet;
 import java.util.Queue;
-import java.util.Set;
 
 public class GameDriver {
     // TODO - Implemented Extra Features: animations (3), power-ups (9), complex ai tank (15)
@@ -122,25 +121,7 @@ public class GameDriver {
         gameWorld.addEntity(powerUp);
     }
 
-    private double findLeastDistance(Entity entity1, Entity entity2) {
-        double moveLeft = entity1.getXBound() - entity2.getX();
-        double moveRight = entity2.getXBound() - entity1.getX();
-        double moveUp = entity1.getYBound() - entity2.getY();
-        double moveDown = entity2.getYBound() - entity1.getY();
-        double smallest = moveLeft;
-        if (moveRight < smallest) {//doing checks manually should take less processing power
-            smallest = moveRight;
-        }
-        if (moveUp < smallest) {
-            smallest = moveUp;
-        }
-        if (moveDown < smallest) {
-            smallest = moveDown;
-        }
-        return smallest;
-    }
-
-    private String findLeastDirection(Entity entity1, Entity entity2) {
+    private Pair findLeast(Entity entity1, Entity entity2) {
         double moveLeft = entity1.getXBound() - entity2.getX();
         double moveRight = entity2.getXBound() - entity1.getX();
         double moveUp = entity1.getYBound() - entity2.getY();
@@ -156,15 +137,16 @@ public class GameDriver {
             direction = "up";
         }
         if (moveDown < smallest) {
+            smallest = moveDown;
             direction = "down";
         }
-        return direction;
+        return new Pair(smallest, direction);
     }
 
     private void handleCollision(Entity entity1, Entity entity2) {
         if (entity1 instanceof Tank && entity2 instanceof Tank) {
-            double smallest = findLeastDistance(entity1, entity2) / 2;
-            switch (findLeastDirection(entity1, entity2)) {
+            double smallest = findLeast(entity1, entity2).getLeft()/ 2;
+            switch (findLeast(entity1, entity2).getRight()) {
                 case "left" -> {
                     entity1.setX(entity1.getX() - smallest);
                     entity2.setX(entity2.getX() + smallest);
@@ -186,8 +168,8 @@ public class GameDriver {
             entity1.takeDamage(gameWorld, runGameView);
             ((Shell) entity2).removeShell(gameWorld, runGameView);
         } else if (entity1 instanceof Tank && entity2 instanceof Wall) {
-            double smallest = findLeastDistance(entity1, entity2);
-            switch (findLeastDirection(entity1, entity2)) {
+            double smallest = findLeast(entity1, entity2).getLeft();
+            switch (findLeast(entity1, entity2).getRight()) {
                 case "left" -> entity1.setX(entity1.getX() - smallest);
                 case "right" -> entity1.setX(entity1.getX() + smallest);
                 case "up" -> entity1.setY(entity1.getY() - smallest);
