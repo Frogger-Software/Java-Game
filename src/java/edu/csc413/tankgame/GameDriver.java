@@ -8,7 +8,8 @@ import java.util.HashSet;
 import java.util.Queue;
 
 public class GameDriver {
-    // TODO - Implemented Extra Features: animations (3), power-ups (9), complex ai tank (15)
+    // TODO - Implemented Extra Features: animations (3), power-ups (9), Sound (12),
+    //  complex ai tank (16) (kinda low quality)
 
     private final MainView mainView;
     private final RunGameView runGameView;

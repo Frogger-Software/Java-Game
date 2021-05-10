@@ -2,6 +2,7 @@ package edu.csc413.tankgame.model;
 
 import edu.csc413.tankgame.Constants;
 import edu.csc413.tankgame.view.RunGameView;
+import edu.csc413.tankgame.view.SoundEffects;
 
 /**
  * Entity class representing all tanks in the game.
@@ -72,6 +73,7 @@ public abstract class Tank extends Entity {
             gameWorld.queueShell(shell);
             shellNumber++;
             shellCooldown = 50;
+            SoundEffects.playOnce("resources/Tank_Firing.wav");
         }
     }
 
