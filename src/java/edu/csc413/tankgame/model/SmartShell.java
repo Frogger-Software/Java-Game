@@ -2,20 +2,27 @@ package edu.csc413.tankgame.model;
 
 import edu.csc413.tankgame.Constants;
 
-public class SmortTank extends EnemyTank {
-    public SmortTank(String id, double x, double y, double angle) {
+public class SmartShell extends Shell{
+    private String user;
+    public SmartShell(String id, double x, double y, double angle, String user) {
         super(id, x, y, angle);
+        this.user = user;
     }
 
     @Override
-    public void move(GameWorld gameWorld) {
-        decrementCooldown();
+    public void move(GameWorld gameWorld){
+        Entity tracked = null;
+        if(user.equals("player")){
+            tracked = gameWorld.getTankQueue().peek();
+        }
+        if(user.equals("enemy")){
+            tracked = gameWorld.getEntity(Constants.PLAYER_TANK_ID);
+        }
         //Code by Dawson Zhou
-        Entity playerTank = gameWorld.getEntity(Constants.PLAYER_TANK_ID);
         // To figure out what angle the AI tank needs to face, we'll use the
         // change in the x and y axes between the AI and player tanks.
-        double dx = playerTank.getX() - getX();
-        double dy = playerTank.getY() - getY();
+        double dx = tracked.getX() - getX();
+        double dy = tracked.getY() - getY();
         // atan2 applies arctangent to the ratio of the two provided values.
         double angleToPlayer = Math.atan2(dy, dx);
 
@@ -37,7 +44,14 @@ public class SmortTank extends EnemyTank {
             turnLeft(Constants.TANK_TURN_SPEED);
         }
         //end of Dawson Zhou's code
-        moveForward(Constants.TANK_MOVEMENT_SPEED / 3);//too fast
-        fireShell(gameWorld);
+        moveForward(Constants.SHELL_MOVEMENT_SPEED);
+    }
+
+    private void turnLeft(double turnSpeed) {
+        setAngle(getAngle() - turnSpeed);
+    }
+
+    private void turnRight(double turnSpeed) {
+        setAngle(getAngle() + turnSpeed);
     }
 }

@@ -6,10 +6,11 @@ import edu.csc413.tankgame.view.*;
 import java.awt.event.ActionEvent;
 import java.util.HashSet;
 import java.util.Queue;
+import java.util.Set;
 
 public class GameDriver {
-    // TODO - Implemented Extra Features: animations,
-    //
+    // TODO - Implemented Extra Features: animations (3), power-ups (9), complex ai tank (15)
+
     private final MainView mainView;
     private final RunGameView runGameView;
     private final GameWorld gameWorld;
@@ -83,6 +84,7 @@ public class GameDriver {
                 AI1.getY(),
                 AI1.getAngle());
         gameWorld.addEntity(AI1);
+        gameWorld.registerEnemy(AI1);
 
         Tank AI2 = new SmortTank(Constants.AI_TANK_2_ID,
                 Constants.AI_TANK_2_INITIAL_X,
@@ -94,6 +96,30 @@ public class GameDriver {
                 AI2.getY(),
                 AI2.getAngle());
         gameWorld.addEntity(AI2);
+        gameWorld.registerEnemy(AI2);
+
+        Tank AI3 = new TurretTank(Constants.AI_TANK_3_ID,
+                Constants.PLAYER_TANK_INITIAL_X,
+                Constants.PLAYER_TANK_INITIAL_Y + 300,
+                Constants.AI_TANK_1_INITIAL_ANGLE);
+        runGameView.addSprite(AI3.getId(),
+                RunGameView.AI_TANK_IMAGE_FILE,
+                AI3.getX(),
+                AI3.getY(),
+                AI3.getAngle());
+        gameWorld.addEntity(AI3);
+        gameWorld.registerEnemy(AI3);
+
+        PowerUp powerUp = new PowerUp("power-up-1",
+                Constants.PLAYER_TANK_INITIAL_X - 150,
+                Constants.PLAYER_TANK_INITIAL_Y - 150,
+                0);
+        runGameView.addSprite(powerUp.getId(),
+                "power-up.png",
+                powerUp.getX(),
+                powerUp.getY(),
+                powerUp.getAngle());
+        gameWorld.addEntity(powerUp);
     }
 
     private double findLeastDistance(Entity entity1, Entity entity2) {
@@ -167,6 +193,16 @@ public class GameDriver {
                 case "up" -> entity1.setY(entity1.getY() - smallest);
                 case "down" -> entity1.setY(entity1.getY() + smallest);
             }
+        }
+        if (entity1 instanceof Tank && entity2 instanceof PowerUp) {
+            ((Tank) entity1).gainPower();
+            gameWorld.removeEntity(entity2.getId());
+            runGameView.removeSprite(entity2.getId());
+            runGameView.addAnimation(
+                    RunGameView.SHELL_EXPLOSION_ANIMATION,
+                    RunGameView.SHELL_EXPLOSION_FRAME_DELAY,
+                    entity2.getX(),
+                    entity2.getY());
         } else if (entity1 instanceof Shell && entity2 instanceof Shell) {
             ((Shell) entity1).removeShell(gameWorld, runGameView);
             ((Shell) entity2).removeShell(gameWorld, runGameView);
@@ -244,7 +280,7 @@ public class GameDriver {
                     entity.getY(),
                     entity.getAngle());
         }
-        if (gameWorld.getEntity(Constants.AI_TANK_1_ID) == null && gameWorld.getEntity(Constants.AI_TANK_2_ID) == null) {
+        if (gameWorld.getTankQueue().isEmpty()) {
             gameWorld.endGame();
             return false;
         }

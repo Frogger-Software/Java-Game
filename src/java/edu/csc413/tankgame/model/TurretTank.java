@@ -2,8 +2,8 @@ package edu.csc413.tankgame.model;
 
 import edu.csc413.tankgame.Constants;
 
-public class SmortTank extends EnemyTank {
-    public SmortTank(String id, double x, double y, double angle) {
+public class TurretTank extends EnemyTank{
+    public TurretTank(String id, double x, double y, double angle) {
         super(id, x, y, angle);
     }
 
@@ -17,7 +17,7 @@ public class SmortTank extends EnemyTank {
         double dx = playerTank.getX() - getX();
         double dy = playerTank.getY() - getY();
         // atan2 applies arctangent to the ratio of the two provided values.
-        double angleToPlayer = Math.atan2(dy, dx);
+        double angleToPlayer = Math.atan2(dy, dx) + .2;
 
         double angleDifference = getAngle() - angleToPlayer;
         // We want to keep the angle difference between -180 degrees and 180
@@ -32,12 +32,11 @@ public class SmortTank extends EnemyTank {
         // bouncing back and forth around 0 degrees, alternating between left
         // and right turns, so we build in a small margin of error.
         if (angleDifference < -Math.toRadians(3.0)) {
-            turnRight(Constants.TANK_TURN_SPEED);
+            turnRight(Constants.TANK_TURN_SPEED*2);
         } else if (angleDifference > Math.toRadians(3.0)) {
-            turnLeft(Constants.TANK_TURN_SPEED);
+            turnLeft(Constants.TANK_TURN_SPEED*2);
         }
         //end of Dawson Zhou's code
-        moveForward(Constants.TANK_MOVEMENT_SPEED / 3);//too fast
         fireShell(gameWorld);
     }
 }

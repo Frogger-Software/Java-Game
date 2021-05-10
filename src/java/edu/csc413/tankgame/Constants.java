@@ -16,6 +16,7 @@ public class Constants {
     public static final String PLAYER_TANK_ID = "player-tank";
     public static final String AI_TANK_1_ID = "ai-tank-1";
     public static final String AI_TANK_2_ID = "ai-tank-2";
+    public static final String AI_TANK_3_ID = "ai-tank-3";
 
     public static final double PLAYER_TANK_INITIAL_X = 250.0;
     public static final double PLAYER_TANK_INITIAL_Y = 200.0;

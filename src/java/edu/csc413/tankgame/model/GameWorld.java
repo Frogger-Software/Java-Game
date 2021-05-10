@@ -12,12 +12,26 @@ public class GameWorld {
     private final HashMap<String, Entity> entityHashMap;
     private final Queue<Shell> shellQueue;
     private boolean endGame;
+    private final Queue<Tank> tankQueue;
 
     public GameWorld() {
         // TODO: Implement. - finished
         entityHashMap = new HashMap<>();
         shellQueue = new ArrayDeque<>();
+        tankQueue = new ArrayDeque<>();
         endGame = false;
+    }
+
+    public void registerEnemy(Tank a){
+        tankQueue.add(a);
+    }
+
+    public void deleteEnemy(Tank a){
+        tankQueue.remove(a);
+    }
+
+    public Queue<Tank> getTankQueue(){
+        return tankQueue;
     }
 
     /**
@@ -64,6 +78,17 @@ public class GameWorld {
         endGame = true;
         entityHashMap.clear();
         shellQueue.clear();
+//        switch (won){
+//            case 0 -> {
+//
+//            }
+//            case 1 -> {
+//
+//            }
+//            case 2 -> {
+//
+//            }
+//        }
     }
 
     public boolean getEndGame() {

@@ -5,9 +5,11 @@ import edu.csc413.tankgame.KeyboardReader;
 import edu.csc413.tankgame.view.RunGameView;
 
 public class PlayerTank extends Tank {
+
     public PlayerTank(String id, double x, double y, double angle) {
         super(id, x, y, angle);
         setHealth(10);
+        setUser("player");
     }
 
     @Override

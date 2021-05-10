@@ -11,6 +11,9 @@ public abstract class Tank extends Entity {
     private int shellCooldown = 0;
     private int boundaryX = 0;
     private int boundaryY = 0;
+    private boolean unleashPower = false;
+    private String user;
+
     // TODO: Implement. A lot of what's below is relevant to all Entity types, not just Tanks. Move it accordingly to
     //       Entity class. - finished
 
@@ -56,7 +59,16 @@ public abstract class Tank extends Entity {
 
     protected void fireShell(GameWorld gameWorld) {
         if (shellCooldown == 0) {
-            Shell shell = new Shell(getId() + "-shell-" + shellNumber, getShellX(), getShellY(), getShellAngle());
+            Shell shell;
+            if(unleashPower){
+                shell = new SmartShell(getId() + "-smart-shell-" + shellNumber,
+                        getShellX(),
+                        getShellY(),
+                        getShellAngle(),
+                        this.user);
+            } else {
+                shell = new Shell(getId() + "-shell-" + shellNumber, getShellX(), getShellY(), getShellAngle());
+            }
             gameWorld.queueShell(shell);
             shellNumber++;
             shellCooldown = 50;
@@ -117,5 +129,13 @@ public abstract class Tank extends Entity {
     @Override
     public double getYBound() {
         return getY() + Constants.TANK_HEIGHT;
+    }
+
+    public void gainPower(){
+        unleashPower = true;
+    }
+
+    protected void setUser(String s){
+        this.user = s;
     }
 }
