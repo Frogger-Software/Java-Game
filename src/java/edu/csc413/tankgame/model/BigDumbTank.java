@@ -2,10 +2,12 @@ package edu.csc413.tankgame.model;
 
 import edu.csc413.tankgame.Constants;
 
-public class BigDumbTank extends Tank{
+public class BigDumbTank extends Tank {
     private int howMakeInfinity = 0;
+
     public BigDumbTank(String id, double x, double y, double angle) {
         super(id, x, y, angle);
+        setHealth(2);
     }
 
     @Override
@@ -13,12 +15,12 @@ public class BigDumbTank extends Tank{
         decrementCooldown();
         howMakeInfinity++;
         moveForward(Constants.TANK_MOVEMENT_SPEED);
-        if(howMakeInfinity < 250){
+        if (howMakeInfinity < 250) {
             turnLeft(Constants.TANK_TURN_SPEED);
-        }else{
+        } else {
             turnRight(Constants.TANK_TURN_SPEED);
         }
-        if(howMakeInfinity == 500){
+        if (howMakeInfinity == 500) {
             howMakeInfinity = 0;
         }
         fireShell(gameWorld);

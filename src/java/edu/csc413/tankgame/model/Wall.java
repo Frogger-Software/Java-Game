@@ -3,10 +3,10 @@ package edu.csc413.tankgame.model;
 import edu.csc413.tankgame.Constants;
 import edu.csc413.tankgame.view.RunGameView;
 
-public class Wall extends Entity{
-    private int health = 5;
+public class Wall extends Entity {
     public Wall(String id, double x, double y) {
         super(id, x, y, 0);
+        setHealth(4);
     }
 
     @Override
@@ -17,16 +17,16 @@ public class Wall extends Entity{
     @Override
     public boolean outOfBoundsX(GameWorld gameWorld) {
         return false;
-    }
+    }//walls don't move
 
     @Override
     public boolean outOfBoundsY(GameWorld gameWorld) {
         return false;
-    }
+    }//walls don't move
 
     @Override
     public void boundaryBehavior(GameWorld gameWorld, RunGameView runGameView) {
-        //nothing
+        //walls don't move
     }
 
     @Override
@@ -37,13 +37,5 @@ public class Wall extends Entity{
     @Override
     public double getYBound() {
         return getY() + Constants.WALL_HEIGHT;
-    }
-
-    public void takeDamage(GameWorld gameWorld, RunGameView runGameView){
-        health--;
-        if(health == 0){
-            gameWorld.removeEntity(getId());
-            runGameView.removeSprite(getId());
-        }
     }
 }

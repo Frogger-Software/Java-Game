@@ -7,19 +7,22 @@ import edu.csc413.tankgame.view.RunGameView;
  * as tanks, shells, walls, power ups, etc.
  */
 public abstract class Entity {
-    private String id;
+    private final String id;
     private double x;
     private double y;
     private double angle;
+    private int health;
 
-    protected Entity(String id, double x, double y, double angle){
+    protected Entity(String id, double x, double y, double angle) {
         this.id = id;
         this.x = x;
         this.y = y;
         this.angle = angle;
     }
 
-    public String getId(){return id;}
+    public String getId() {
+        return id;
+    }
 
     public double getX() {
         return x;
@@ -33,18 +36,21 @@ public abstract class Entity {
         return angle;
     }
 
-    public void setX(double x){
+    public void setX(double x) {
         this.x = x;
     }
 
-    public void setY(double y){
+    public void setY(double y) {
         this.y = y;
     }
 
-    public void setAngle(double angle){
+    public void setAngle(double angle) {
         this.angle = angle;
     }
-    /** All entities can move, even if the details of their move logic may vary based on the specific type of Entity. */
+
+    /**
+     * All entities can move, even if the details of their move logic may vary based on the specific type of Entity.
+     */
     public abstract void move(GameWorld gameWorld);
 
     protected void moveForward(double movementSpeed) {
@@ -65,10 +71,31 @@ public abstract class Entity {
 
     public abstract double getYBound();
 
-    public boolean entitiesOverlap(Entity entity2){
+    public boolean entitiesOverlap(Entity entity2) {
         return (getX() < entity2.getXBound()) &&
                 (getXBound() > entity2.getX()) &&
                 (getY() < entity2.getYBound()) &&
                 (getYBound() > entity2.getY());
+    }
+
+    protected void setHealth(int x) {
+        health = x;
+    }
+
+    protected int getHealth() {
+        return health;
+    }
+
+    public void takeDamage(GameWorld gameWorld, RunGameView runGameView) {
+        health--;
+        if (health == 0) {
+            gameWorld.removeEntity(getId());
+            runGameView.removeSprite(getId());
+            runGameView.addAnimation(
+                    RunGameView.BIG_EXPLOSION_ANIMATION,
+                    RunGameView.BIG_EXPLOSION_FRAME_DELAY,
+                    getX(),
+                    getY());
+        }
     }
 }

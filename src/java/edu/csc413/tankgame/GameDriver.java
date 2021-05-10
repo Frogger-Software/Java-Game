@@ -5,11 +5,14 @@ import edu.csc413.tankgame.view.*;
 
 import java.awt.event.ActionEvent;
 import java.util.HashSet;
+import java.util.Queue;
 
 public class GameDriver {
+    // TODO - Implemented Extra Features: animations,
+    //
     private final MainView mainView;
     private final RunGameView runGameView;
-    private GameWorld gameWorld;
+    private final GameWorld gameWorld;
 
     public GameDriver() {
         mainView = new MainView(this::startMenuActionPerformed);
@@ -52,11 +55,11 @@ public class GameDriver {
      * should be initialized here, with their corresponding sprites added to the RunGameView.
      */
     private void setUpGame() {
-        // TODO: Implement.
-        for(int i = 0; i < WallInformation.readWalls().size(); i++){//using i for unique id
+        // TODO: Implement. - finished
+        for (int i = 0; i < WallInformation.readWalls().size(); i++) {//using i for unique id
             WallInformation wall = WallInformation.readWalls().get(i);
             Wall E = new Wall(wall.getImageFile() + i, wall.getX(), wall.getY());
-            runGameView.addSprite(E.getId(), wall.getImageFile(),E.getX(),E.getY(), E.getAngle());
+            runGameView.addSprite(E.getId(), wall.getImageFile(), E.getX(), E.getY(), E.getAngle());
             gameWorld.addEntity(E);
         }
         Tank player = new PlayerTank(Constants.PLAYER_TANK_ID,
@@ -93,40 +96,40 @@ public class GameDriver {
         gameWorld.addEntity(AI2);
     }
 
-    private double findLeastDistance(Entity entity1, Entity entity2){
+    private double findLeastDistance(Entity entity1, Entity entity2) {
         double moveLeft = entity1.getXBound() - entity2.getX();
         double moveRight = entity2.getXBound() - entity1.getX();
         double moveUp = entity1.getYBound() - entity2.getY();
         double moveDown = entity2.getYBound() - entity1.getY();
         double smallest = moveLeft;
-        if(moveRight < smallest){//doing checks manually should take less processing power
+        if (moveRight < smallest) {//doing checks manually should take less processing power
             smallest = moveRight;
         }
-        if(moveUp < smallest){
+        if (moveUp < smallest) {
             smallest = moveUp;
         }
-        if(moveDown < smallest){
+        if (moveDown < smallest) {
             smallest = moveDown;
         }
         return smallest;
     }
 
-    private String findLeastDirection(Entity entity1, Entity entity2){
+    private String findLeastDirection(Entity entity1, Entity entity2) {
         double moveLeft = entity1.getXBound() - entity2.getX();
         double moveRight = entity2.getXBound() - entity1.getX();
         double moveUp = entity1.getYBound() - entity2.getY();
         double moveDown = entity2.getYBound() - entity1.getY();
         double smallest = moveLeft;
         String direction = "left";
-        if(moveRight < smallest){//doing checks manually should take less processing power
+        if (moveRight < smallest) {//doing checks manually should take less processing power
             smallest = moveRight;
             direction = "right";
         }
-        if(moveUp < smallest){
+        if (moveUp < smallest) {
             smallest = moveUp;
             direction = "up";
         }
-        if(moveDown < smallest){
+        if (moveDown < smallest) {
             direction = "down";
         }
         return direction;
@@ -134,36 +137,42 @@ public class GameDriver {
 
     private void handleCollision(Entity entity1, Entity entity2) {
         if (entity1 instanceof Tank && entity2 instanceof Tank) {
-            double smallest = findLeastDistance(entity1, entity2)/2;
-            switch (findLeastDirection(entity1, entity2)){
-                case "left" -> {entity1.setX(entity1.getX() - smallest); entity2.setX(entity2.getX() + smallest);}
-                case "right" -> {entity1.setX(entity1.getX() + smallest); entity2.setX(entity2.getX() - smallest);}
-                case "up" -> {entity1.setY(entity1.getY() - smallest); entity2.setY(entity2.getY() + smallest);}
-                case "down" -> {entity1.setY(entity1.getY() + smallest); entity2.setY(entity2.getY() - smallest);}
+            double smallest = findLeastDistance(entity1, entity2) / 2;
+            switch (findLeastDirection(entity1, entity2)) {
+                case "left" -> {
+                    entity1.setX(entity1.getX() - smallest);
+                    entity2.setX(entity2.getX() + smallest);
+                }
+                case "right" -> {
+                    entity1.setX(entity1.getX() + smallest);
+                    entity2.setX(entity2.getX() - smallest);
+                }
+                case "up" -> {
+                    entity1.setY(entity1.getY() - smallest);
+                    entity2.setY(entity2.getY() + smallest);
+                }
+                case "down" -> {
+                    entity1.setY(entity1.getY() + smallest);
+                    entity2.setY(entity2.getY() - smallest);
+                }
             }
-        } else if (entity1 instanceof Tank && entity2 instanceof Shell){
-            ((Tank) entity1).takeDamage(gameWorld, runGameView);
+        } else if (entity1 instanceof Tank && entity2 instanceof Shell) {
+            entity1.takeDamage(gameWorld, runGameView);
             ((Shell) entity2).removeShell(gameWorld, runGameView);
-        } else if (entity1 instanceof Tank && entity2 instanceof Wall){
+        } else if (entity1 instanceof Tank && entity2 instanceof Wall) {
             double smallest = findLeastDistance(entity1, entity2);
-            switch (findLeastDirection(entity1, entity2)){
+            switch (findLeastDirection(entity1, entity2)) {
                 case "left" -> entity1.setX(entity1.getX() - smallest);
                 case "right" -> entity1.setX(entity1.getX() + smallest);
                 case "up" -> entity1.setY(entity1.getY() - smallest);
                 case "down" -> entity1.setY(entity1.getY() + smallest);
             }
-        } else if (entity1 instanceof Shell && entity2 instanceof Tank) {
-            //duplicate
         } else if (entity1 instanceof Shell && entity2 instanceof Shell) {
             ((Shell) entity1).removeShell(gameWorld, runGameView);
             ((Shell) entity2).removeShell(gameWorld, runGameView);
-        } else if (entity1 instanceof Shell && entity2 instanceof Wall){
+        } else if (entity1 instanceof Shell && entity2 instanceof Wall) {
             ((Shell) entity1).removeShell(gameWorld, runGameView);
-            ((Wall) entity2).takeDamage(gameWorld, runGameView);
-        }else if (entity1 instanceof Wall && entity2 instanceof Tank) {
-            //duplicate
-        } else if (entity1 instanceof Wall && entity2 instanceof Shell) {
-            //duplicate
+            entity2.takeDamage(gameWorld, runGameView);
         }
     }
 
@@ -173,7 +182,7 @@ public class GameDriver {
      * (e.g. the player tank being destroyed, escape being pressed), it should return false.
      */
     private boolean updateGame() {
-        // TODO: Implement.
+        // TODO: Implement. - finished
 
         //#1. make a copy
 //        ArrayList<Entity> oldList = new ArrayList<>(gameWorld.getEntities());
@@ -194,31 +203,31 @@ public class GameDriver {
         //#2. temporary list in addEntity
         for (Entity entity : gameWorld.getEntities()) {
             entity.move(gameWorld);
-            if(gameWorld.getEndGame()){
+            if (gameWorld.getEndGame()) {
                 return false;
             }
-            if(entity.outOfBoundsX(gameWorld)){
+            if (entity.outOfBoundsX(gameWorld)) {
                 entity.boundaryBehavior(gameWorld, runGameView);
             }
-            if(entity.outOfBoundsY(gameWorld)){
+            if (entity.outOfBoundsY(gameWorld)) {
                 entity.boundaryBehavior(gameWorld, runGameView);
             }
             HashSet<Entity> collided = new HashSet<>();
-            for(Entity entity2: gameWorld.getEntities()){//.subList(start, end)
-                if(entity2 == entity){
+            for (Entity entity2 : gameWorld.getEntities()) {//.subList(start, end)
+                if (entity2 == entity) {
                     continue;
                 }
-                if(entity.entitiesOverlap(entity2) && !collided.contains(entity2)){
+                if (entity.entitiesOverlap(entity2) && !collided.contains(entity2)) {
                     handleCollision(entity, entity2);
                     collided.add(entity2);
                 }
             }
         }
 
-        while (!gameWorld.getShellQueue().isEmpty()) {
-            Shell shell = gameWorld.getShellQueue().poll();
+        Queue<Shell> shellQueue = gameWorld.getShellQueue();
+        while (!shellQueue.isEmpty()) {
+            Shell shell = shellQueue.poll();
             gameWorld.addEntity(shell);
-            assert shell != null;
             runGameView.addSprite(
                     shell.getId(),
                     RunGameView.SHELL_IMAGE_FILE,
@@ -235,7 +244,8 @@ public class GameDriver {
                     entity.getY(),
                     entity.getAngle());
         }
-        if(gameWorld.getEntity(Constants.AI_TANK_1_ID) == null && gameWorld.getEntity(Constants.AI_TANK_2_ID) == null){
+        if (gameWorld.getEntity(Constants.AI_TANK_1_ID) == null && gameWorld.getEntity(Constants.AI_TANK_2_ID) == null) {
+            gameWorld.endGame();
             return false;
         }
         return true;
@@ -246,9 +256,9 @@ public class GameDriver {
      * the game so that if the game is restarted, there aren't any things leftover from the previous run.
      */
     private void resetGame() {
-        // TODO: Implement.
+        // TODO: Implement. - finished
         runGameView.reset();
-        gameWorld = new GameWorld();
+        gameWorld.restartGame();
     }
 
     public static void main(String[] args) {

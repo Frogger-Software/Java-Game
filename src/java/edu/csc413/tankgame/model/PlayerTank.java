@@ -14,30 +14,30 @@ public class PlayerTank extends Tank {
     public void move(GameWorld gameWorld) {
         decrementCooldown();
         KeyboardReader keyboard = KeyboardReader.instance();
-        if(keyboard.leftPressed()){
+        if (keyboard.leftPressed()) {
             turnLeft(Constants.TANK_TURN_SPEED);
         }
         if (keyboard.rightPressed()) {
             turnRight(Constants.TANK_TURN_SPEED);
         }
-        if(keyboard.upPressed()){
+        if (keyboard.upPressed()) {
             moveForward(Constants.TANK_MOVEMENT_SPEED);
         }
-        if(keyboard.downPressed()){
+        if (keyboard.downPressed()) {
             moveBackward(Constants.TANK_MOVEMENT_SPEED);
         }
-        if(keyboard.spacePressed()){
+        if (keyboard.spacePressed()) {
             fireShell(gameWorld);
         }
-        if(keyboard.escapePressed()){
+        if (keyboard.escapePressed()) {
             gameWorld.endGame();
         }
     }
 
     @Override
-    public void takeDamage(GameWorld gameWorld, RunGameView runGameView){
-        decrementHealth();
-        if(getHealth() == 0){
+    public void takeDamage(GameWorld gameWorld, RunGameView runGameView) {
+        super.takeDamage(gameWorld, runGameView);
+        if (getHealth() == 0) {
             gameWorld.endGame();
         }
     }

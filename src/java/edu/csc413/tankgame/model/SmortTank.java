@@ -5,6 +5,7 @@ import edu.csc413.tankgame.Constants;
 public class SmortTank extends Tank {
     public SmortTank(String id, double x, double y, double angle) {
         super(id, x, y, angle);
+        setHealth(2);
     }
 
     @Override
@@ -37,9 +38,8 @@ public class SmortTank extends Tank {
             turnLeft(Constants.TANK_TURN_SPEED);
         }
         //end of Dawson Zhou's code
-        moveForward(Constants.TANK_MOVEMENT_SPEED/3);//too fast
+        moveForward(Constants.TANK_MOVEMENT_SPEED / 3);//too fast
         fireShell(gameWorld);
     }
-
 
 }

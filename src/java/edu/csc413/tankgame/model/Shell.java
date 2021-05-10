@@ -14,20 +14,14 @@ public class Shell extends Entity {
     }
 
     public boolean outOfBoundsX(GameWorld gameWorld) {
-        if (getX() < Constants.SHELL_X_LOWER_BOUND ||
-                getX() > Constants.SHELL_X_UPPER_BOUND) {
-            return true;
-        }
-        return false;
+        return getX() < Constants.SHELL_X_LOWER_BOUND ||
+                getX() > Constants.SHELL_X_UPPER_BOUND;
     }
 
     @Override
     public boolean outOfBoundsY(GameWorld gameWorld) {
-        if (getY() < Constants.SHELL_Y_LOWER_BOUND ||
-                getY() > Constants.SHELL_Y_UPPER_BOUND) {
-            return true;
-        }
-        return false;
+        return getY() < Constants.SHELL_Y_LOWER_BOUND ||
+                getY() > Constants.SHELL_Y_UPPER_BOUND;
     }
 
     @Override
@@ -35,7 +29,7 @@ public class Shell extends Entity {
         removeShell(gameWorld, runGameView);
     }
 
-    public void removeShell(GameWorld gameWorld, RunGameView runGameView){
+    public void removeShell(GameWorld gameWorld, RunGameView runGameView) {
         gameWorld.removeEntity(getId());
         runGameView.removeSprite(getId());
         runGameView.addAnimation(

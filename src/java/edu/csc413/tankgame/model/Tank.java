@@ -3,13 +3,14 @@ package edu.csc413.tankgame.model;
 import edu.csc413.tankgame.Constants;
 import edu.csc413.tankgame.view.RunGameView;
 
-/** Entity class representing all tanks in the game. */
+/**
+ * Entity class representing all tanks in the game.
+ */
 public abstract class Tank extends Entity {
     private int shellNumber = 0;
     private int shellCooldown = 0;
     private int boundaryX = 0;
     private int boundaryY = 0;
-    private int health = 2;
     // TODO: Implement. A lot of what's below is relevant to all Entity types, not just Tanks. Move it accordingly to
     //       Entity class. - finished
 
@@ -18,7 +19,7 @@ public abstract class Tank extends Entity {
     }
 
     // TODO: The methods below are provided so you don't have to do the math for movement. You should call these methods
-    //       from the various subclasses of Entity in their implementations of move.
+    //       from the various subclasses of Entity in their implementations of move. - finished
 
     protected void moveBackward(double movementSpeed) {
         setX(getX() - movementSpeed * Math.cos(getAngle()));
@@ -53,28 +54,28 @@ public abstract class Tank extends Entity {
         return getAngle();
     }
 
-    protected void fireShell(GameWorld gameWorld){
-        if(shellCooldown == 0){
-            Shell shell = new Shell(getId() + "-shell-" + shellNumber,getShellX(),getShellY(),getShellAngle());
+    protected void fireShell(GameWorld gameWorld) {
+        if (shellCooldown == 0) {
+            Shell shell = new Shell(getId() + "-shell-" + shellNumber, getShellX(), getShellY(), getShellAngle());
             gameWorld.queueShell(shell);
             shellNumber++;
             shellCooldown = 50;
         }
     }
 
-    protected void decrementCooldown(){
-        if(shellCooldown > 0){
+    protected void decrementCooldown() {
+        if (shellCooldown > 0) {
             shellCooldown--;
         }
     }
 
     @Override
     public boolean outOfBoundsX(GameWorld gameWorld) {
-        if(getX() < Constants.TANK_X_LOWER_BOUND){
+        if (getX() < Constants.TANK_X_LOWER_BOUND) {
             boundaryX = 1;
             return true;
         }
-        if(getX() > Constants.TANK_X_UPPER_BOUND){
+        if (getX() > Constants.TANK_X_UPPER_BOUND) {
             boundaryX = 2;
             return true;
         }
@@ -82,12 +83,12 @@ public abstract class Tank extends Entity {
         return false;
     }
 
-    public boolean outOfBoundsY(GameWorld gameWorld){
-        if(getY() < Constants.TANK_Y_LOWER_BOUND){
+    public boolean outOfBoundsY(GameWorld gameWorld) {
+        if (getY() < Constants.TANK_Y_LOWER_BOUND) {
             boundaryY = 1;
             return true;
         }
-        if(getY() > Constants.TANK_Y_UPPER_BOUND){
+        if (getY() > Constants.TANK_Y_UPPER_BOUND) {
             boundaryY = 2;
             return true;
         }
@@ -97,11 +98,11 @@ public abstract class Tank extends Entity {
 
     @Override
     public void boundaryBehavior(GameWorld gameWorld, RunGameView runGameView) {
-        switch (boundaryX){
+        switch (boundaryX) {
             case 1 -> setX(Constants.TANK_X_LOWER_BOUND);
             case 2 -> setX(Constants.TANK_X_UPPER_BOUND);
         }
-        switch (boundaryY){
+        switch (boundaryY) {
             case 1 -> setY(Constants.TANK_Y_LOWER_BOUND);
             case 2 -> setY(Constants.TANK_Y_UPPER_BOUND);
         }
@@ -116,25 +117,5 @@ public abstract class Tank extends Entity {
     @Override
     public double getYBound() {
         return getY() + Constants.TANK_HEIGHT;
-    }
-
-    public void takeDamage(GameWorld gameWorld, RunGameView runGameView){
-        health--;
-        if(health == 0){
-            gameWorld.removeEntity(getId());
-            runGameView.removeSprite(getId());
-        }
-    }
-
-    protected void decrementHealth(){
-        health--;
-    }
-
-    protected void setHealth(int x){
-        health = x;
-    }
-
-    protected int getHealth(){
-        return health;
     }
 }
