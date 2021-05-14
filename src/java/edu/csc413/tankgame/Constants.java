@@ -39,4 +39,7 @@ public class Constants {
     public static final double SHELL_X_UPPER_BOUND = 1024.0;
     public static final double SHELL_Y_LOWER_BOUND = -10.0;
     public static final double SHELL_Y_UPPER_BOUND = 768.0;
+
+    public static final double POWERUP_WIDTH = 19;
+    public static final double POWERUP_HEIGHT= 18;
 }

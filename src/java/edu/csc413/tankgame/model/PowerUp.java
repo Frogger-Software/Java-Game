@@ -30,11 +30,11 @@ public class PowerUp extends Entity {
 
     @Override
     public double getXBound() {
-        return getX() + Constants.TANK_WIDTH;
+        return getX() + Constants.POWERUP_WIDTH;
     }
 
     @Override
     public double getYBound() {
-        return getY() + Constants.TANK_HEIGHT;
+        return getY() + Constants.POWERUP_HEIGHT;
     }
 }

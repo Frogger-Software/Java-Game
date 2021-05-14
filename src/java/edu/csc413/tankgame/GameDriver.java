@@ -115,7 +115,7 @@ public class GameDriver {
                 Constants.PLAYER_TANK_INITIAL_Y - 150,
                 0);
         runGameView.addSprite(powerUp.getId(),
-                "power-up.png",
+                "powerup.png",
                 powerUp.getX(),
                 powerUp.getY(),
                 powerUp.getAngle());
