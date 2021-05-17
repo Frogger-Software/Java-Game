@@ -97,7 +97,8 @@ public abstract class Entity {
         }
     }
 
-    protected double tracker(GameWorld gameWorld, Entity tracked){
+    protected double tracker(Entity tracked){
+        //Code by Dawson Zhou
         double dx = tracked.getX() - getX();
         double dy = tracked.getY() - getY();
         // atan2 applies arctangent to the ratio of the two provided values.
@@ -111,6 +112,7 @@ public abstract class Entity {
         angleDifference -= Math.floor(angleDifference
                 / Math.toRadians(360.0) + 0.5)
                 * Math.toRadians(360.0);
+        //end of code by Dawson Zhou
         return angleDifference;
     }
 }

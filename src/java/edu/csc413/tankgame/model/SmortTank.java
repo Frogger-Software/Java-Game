@@ -3,8 +3,10 @@ package edu.csc413.tankgame.model;
 import edu.csc413.tankgame.Constants;
 
 public class SmortTank extends EnemyTank {
+    private final double moveSpeed;
     public SmortTank(String id, double x, double y, double angle) {
         super(id, x, y, angle);
+        moveSpeed = Constants.TANK_MOVEMENT_SPEED / 2;//calculate once, / 2 because annoying when same speed
     }
 
     @Override
@@ -15,7 +17,7 @@ public class SmortTank extends EnemyTank {
         // To figure out what angle the AI tank needs to face, we'll use the
         // change in the x and y axes between the AI and player tanks.
 
-        double angleDifference = tracker(gameWorld, playerTank);
+        double angleDifference = tracker(playerTank);
         // The angle difference being positive or negative determines if we turn
         // left or right. However, we don’t want the Tank to be constantly
         // bouncing back and forth around 0 degrees, alternating between left
@@ -26,7 +28,7 @@ public class SmortTank extends EnemyTank {
             turnLeft(Constants.TANK_TURN_SPEED);
         }
         //end of Dawson Zhou's code
-        moveForward(Constants.TANK_MOVEMENT_SPEED / 3);//too fast
+        moveForward(moveSpeed);
         fireShell(gameWorld);
     }
 }

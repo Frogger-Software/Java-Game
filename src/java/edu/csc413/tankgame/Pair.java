@@ -1,8 +1,8 @@
 package edu.csc413.tankgame;
 
 public class Pair {
-    private double left;
-    private String right;
+    private final double left;
+    private final String right;
 
     public Pair(double lhs, String rhs){
         left = lhs;

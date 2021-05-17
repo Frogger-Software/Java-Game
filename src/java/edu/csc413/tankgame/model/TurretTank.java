@@ -15,7 +15,7 @@ public class TurretTank extends EnemyTank {
         // To figure out what angle the AI tank needs to face, we'll use the
         // change in the x and y axes between the AI and player tanks.
 
-        double angleDifference = tracker(gameWorld, playerTank);
+        double angleDifference = tracker(playerTank);
         // The angle difference being positive or negative determines if we turn
         // left or right. However, we don’t want the Tank to be constantly
         // bouncing back and forth around 0 degrees, alternating between left

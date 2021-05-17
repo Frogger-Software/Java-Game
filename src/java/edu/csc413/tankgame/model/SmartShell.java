@@ -23,7 +23,7 @@ public class SmartShell extends Shell {
         // To figure out what angle the AI tank needs to face, we'll use the
         // change in the x and y axes between the AI and player tanks.
         assert tracked != null;
-        double angleDifference = tracker(gameWorld, tracked);
+        double angleDifference = tracker(tracked);
         // The angle difference being positive or negative determines if we turn
         // left or right. However, we don’t want the Tank to be constantly
         // bouncing back and forth around 0 degrees, alternating between left
