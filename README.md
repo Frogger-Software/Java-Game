@@ -5,3 +5,7 @@ Name: Ze Lei
 Email: zlei1@mail.sfsu.edu
 
 Extra Features:
+animations (3), 
+power-ups (complex, 6), 
+Sound (3),
+complex ai tank (3) (low quality)
