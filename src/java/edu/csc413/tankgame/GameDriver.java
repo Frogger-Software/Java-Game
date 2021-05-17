@@ -144,8 +144,9 @@ public class GameDriver {
 
     private void handleCollision(Entity entity1, Entity entity2) {
         if (entity1 instanceof Tank && entity2 instanceof Tank) {
-            double smallest = findLeast(entity1, entity2).getLeft()/ 2;
-            switch (findLeast(entity1, entity2).getRight()) {
+            Pair pair = findLeast(entity1, entity2);
+            double smallest = pair.getLeft()/ 2;
+            switch (pair.getRight()) {
                 case "left" -> {
                     entity1.setX(entity1.getX() - smallest);
                     entity2.setX(entity2.getX() + smallest);
@@ -167,8 +168,9 @@ public class GameDriver {
             entity1.takeDamage(gameWorld, runGameView);
             ((Shell) entity2).removeShell(gameWorld, runGameView);
         } else if (entity1 instanceof Tank && entity2 instanceof Wall) {
-            double smallest = findLeast(entity1, entity2).getLeft();
-            switch (findLeast(entity1, entity2).getRight()) {
+            Pair pair = findLeast(entity1, entity2);
+            double smallest = pair.getLeft();
+            switch (pair.getRight()) {
                 case "left" -> entity1.setX(entity1.getX() - smallest);
                 case "right" -> entity1.setX(entity1.getX() + smallest);
                 case "up" -> entity1.setY(entity1.getY() - smallest);
