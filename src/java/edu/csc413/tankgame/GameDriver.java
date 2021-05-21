@@ -193,6 +193,20 @@ public class GameDriver {
             ((Shell) entity1).removeShell(gameWorld, runGameView);
             entity2.takeDamage(gameWorld, runGameView);
         }
+
+//        else if (entity1 instanceof Wall && entity2 instanceof Shell) {
+//            ((Shell) entity2).removeShell(gameWorld, runGameView);
+//            entity1.takeDamage(gameWorld, runGameView);
+//        } else if (entity1 instanceof Wall && entity2 instanceof Tank) {
+//            Pair pair = findLeast(entity1, entity2);
+//            double smallest = pair.getLeft();
+//            switch (pair.getRight()) {
+//                case "left" -> entity2.setX(entity2.getX() - smallest);
+//                case "right" -> entity2.setX(entity2.getX() + smallest);
+//                case "up" -> entity2.setY(entity2.getY() - smallest);
+//                case "down" -> entity2.setY(entity2.getY() + smallest);
+//            }
+//        }
     }
 
     /**
@@ -242,6 +256,29 @@ public class GameDriver {
                 }
             }
         }
+
+//        int end = gameWorld.getEntities().size();
+//        for(int i = 0; i < end; i++){
+//            Entity entity = gameWorld.getEntities().get(i);
+//            entity.move(gameWorld);
+//            if (gameWorld.getEndGame()) {
+//                return false;
+//            }
+//            if (entity.outOfBoundsX(gameWorld)) {
+//                entity.boundaryBehavior(gameWorld, runGameView);
+//            }
+//            if (entity.outOfBoundsY(gameWorld)) {
+//                entity.boundaryBehavior(gameWorld, runGameView);
+//            }
+//            HashSet<Entity> collided = new HashSet<>();
+//            for(int j = i + 1; j < end; j++){
+//                Entity entity2 = gameWorld.getEntities().get(j);
+//                if (entity.entitiesOverlap(entity2) && !collided.contains(entity2)) {
+//                    handleCollision(entity, entity2);
+//                    collided.add(entity2);
+//                }
+//            }
+//        }
 
         Queue<Shell> shellQueue = gameWorld.getShellQueue();
         while (!shellQueue.isEmpty()) {
