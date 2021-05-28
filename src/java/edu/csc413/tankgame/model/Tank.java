@@ -111,7 +111,7 @@ public abstract class Tank extends Entity {
     }
 
     @Override
-    public void boundaryBehavior(GameWorld gameWorld, RunGameView runGameView) {
+    public void boundaryBehavior(GameWorld gameWorld) {
         switch (boundaryX) {
             case 1 -> setX(Constants.TANK_X_LOWER_BOUND);
             case 2 -> setX(Constants.TANK_X_UPPER_BOUND);

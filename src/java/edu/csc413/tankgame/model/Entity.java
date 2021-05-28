@@ -63,7 +63,7 @@ public abstract class Entity {
 
     public abstract boolean outOfBoundsY(GameWorld gameWorld);
 
-    public abstract void boundaryBehavior(GameWorld gameWorld, RunGameView runGameView);
+    public abstract void boundaryBehavior(GameWorld gameWorld);
 
     public abstract double getXBound();
 
@@ -76,25 +76,12 @@ public abstract class Entity {
                 (getYBound() > entity2.getY());
     }
 
-    protected void setHealth(int x) {
+    public void setHealth(int x) {
         health = x;
     }
 
-    protected int getHealth() {
+    public int getHealth() {
         return health;
-    }
-
-    public void takeDamage(GameWorld gameWorld, RunGameView runGameView) {
-        health--;
-        if (health == 0) {
-            gameWorld.removeEntity(getId());
-            runGameView.removeSprite(getId());
-            runGameView.addAnimation(
-                    RunGameView.BIG_EXPLOSION_ANIMATION,
-                    RunGameView.BIG_EXPLOSION_FRAME_DELAY,
-                    getX(),
-                    getY());
-        }
     }
 
     protected double tracker(Entity tracked){
@@ -115,4 +102,6 @@ public abstract class Entity {
         //end of code by Dawson Zhou
         return angleDifference;
     }
+
+    public abstract void deletionBehavior(GameWorld gameWorld);
 }

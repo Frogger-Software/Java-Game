@@ -24,7 +24,7 @@ public class PowerUp extends Entity {
     }
 
     @Override
-    public void boundaryBehavior(GameWorld gameWorld, RunGameView runGameView) {
+    public void boundaryBehavior(GameWorld gameWorld) {
         //none
     }
 
@@ -36,5 +36,10 @@ public class PowerUp extends Entity {
     @Override
     public double getYBound() {
         return getY() + Constants.POWERUP_HEIGHT;
+    }
+
+    @Override
+    public void deletionBehavior(GameWorld gameWorld) {
+        //none
     }
 }

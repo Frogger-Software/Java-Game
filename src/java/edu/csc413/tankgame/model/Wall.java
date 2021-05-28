@@ -25,7 +25,7 @@ public class Wall extends Entity {
     }//walls don't move
 
     @Override
-    public void boundaryBehavior(GameWorld gameWorld, RunGameView runGameView) {
+    public void boundaryBehavior(GameWorld gameWorld) {
         //walls don't move
     }
 
@@ -37,5 +37,10 @@ public class Wall extends Entity {
     @Override
     public double getYBound() {
         return getY() + Constants.WALL_HEIGHT;
+    }
+
+    @Override
+    public void deletionBehavior(GameWorld gameWorld) {
+        //none
     }
 }

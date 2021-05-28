@@ -10,10 +10,7 @@ public abstract class EnemyTank extends Tank{
     }
 
     @Override
-    public void takeDamage(GameWorld gameWorld, RunGameView runGameView) {
-        super.takeDamage(gameWorld, runGameView);
-        if(getHealth() == 0){
-            gameWorld.deleteEnemy(this);
-        }
+    public void deletionBehavior(GameWorld gameWorld) {
+        gameWorld.deleteEnemy(this);
     }
 }

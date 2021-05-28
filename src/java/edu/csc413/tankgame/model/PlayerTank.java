@@ -37,10 +37,7 @@ public class PlayerTank extends Tank {
     }
 
     @Override
-    public void takeDamage(GameWorld gameWorld, RunGameView runGameView) {
-        super.takeDamage(gameWorld, runGameView);
-        if (getHealth() == 0) {
-            gameWorld.endGame();
-        }
+    public void deletionBehavior(GameWorld gameWorld) {
+        gameWorld.endGame();
     }
 }

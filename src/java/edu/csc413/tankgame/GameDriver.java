@@ -120,6 +120,33 @@ public class GameDriver {
         gameWorld.addEntity(powerUp);
     }
 
+    private void smallExplosion(Entity entity){
+        runGameView.removeSprite(entity.getId());
+        runGameView.addAnimation(
+                RunGameView.SHELL_EXPLOSION_ANIMATION,
+                RunGameView.SHELL_EXPLOSION_FRAME_DELAY,
+                entity.getX(),
+                entity.getY());
+    }
+
+    private void bigExplosion(Entity entity){
+        runGameView.removeSprite(entity.getId());
+        runGameView.addAnimation(
+                RunGameView.BIG_EXPLOSION_ANIMATION,
+                RunGameView.BIG_EXPLOSION_FRAME_DELAY,
+                entity.getX(),
+                entity.getY());
+    }
+
+    public void takeDamage(Entity entity) {
+        entity.setHealth(entity.getHealth()-1);
+        if(entity.getHealth() == 0){
+            gameWorld.removeEntity(entity.getId());
+            bigExplosion(entity);
+            entity.deletionBehavior(gameWorld);
+        }//endgame if player, gameworld.deleteenenmy if enemy
+    }
+
     private Pair findLeast(Entity entity1, Entity entity2) {
         double moveLeft = entity1.getXBound() - entity2.getX();
         double moveRight = entity2.getXBound() - entity1.getX();
@@ -165,8 +192,9 @@ public class GameDriver {
                 }
             }
         } else if (entity1 instanceof Tank && entity2 instanceof Shell) {
-            entity1.takeDamage(gameWorld, runGameView);
-            ((Shell) entity2).removeShell(gameWorld, runGameView);
+            takeDamage(entity1);
+            gameWorld.removeEntity(entity2.getId());
+            smallExplosion(entity2);
         } else if (entity1 instanceof Tank && entity2 instanceof Wall) {
             Pair pair = findLeast(entity1, entity2);
             double smallest = pair.getLeft();
@@ -187,11 +215,14 @@ public class GameDriver {
                     entity2.getX(),
                     entity2.getY());
         } else if (entity1 instanceof Shell && entity2 instanceof Shell) {
-            ((Shell) entity1).removeShell(gameWorld, runGameView);
-            ((Shell) entity2).removeShell(gameWorld, runGameView);
+            gameWorld.removeEntity(entity1.getId());
+            smallExplosion(entity1);
+            gameWorld.removeEntity(entity2.getId());
+            smallExplosion(entity2);
         } else if (entity1 instanceof Shell && entity2 instanceof Wall) {
-            ((Shell) entity1).removeShell(gameWorld, runGameView);
-            entity2.takeDamage(gameWorld, runGameView);
+            gameWorld.removeEntity(entity1.getId());
+            smallExplosion(entity1);
+            takeDamage(entity2);
         }
 
 //        else if (entity1 instanceof Wall && entity2 instanceof Shell) {
@@ -240,10 +271,16 @@ public class GameDriver {
                 return false;
             }
             if (entity.outOfBoundsX(gameWorld)) {
-                entity.boundaryBehavior(gameWorld, runGameView);
+                entity.boundaryBehavior(gameWorld);
+                if(entity instanceof Shell){
+                    smallExplosion(entity);
+                }
             }
             if (entity.outOfBoundsY(gameWorld)) {
-                entity.boundaryBehavior(gameWorld, runGameView);
+                entity.boundaryBehavior(gameWorld);
+                if(entity instanceof Shell){
+                    smallExplosion(entity);
+                }
             }
             HashSet<Entity> collided = new HashSet<>();
             for (Entity entity2 : gameWorld.getEntities()) {//.subList(start, end)
