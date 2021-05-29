@@ -1,7 +1,6 @@
 package edu.csc413.tankgame.model;
 
 import edu.csc413.tankgame.Constants;
-import edu.csc413.tankgame.view.RunGameView;
 
 public class Shell extends Entity {
     protected Shell(String id, double x, double y, double angle) {

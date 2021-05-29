@@ -1,7 +1,5 @@
 package edu.csc413.tankgame.model;
 
-import edu.csc413.tankgame.view.RunGameView;
-
 /**
  * A general concept for an entity in the Tank Game. This includes everything that can move or be interacted with, such
  * as tanks, shells, walls, power ups, etc.

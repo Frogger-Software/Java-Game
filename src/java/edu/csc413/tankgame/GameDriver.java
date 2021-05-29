@@ -4,7 +4,7 @@ import edu.csc413.tankgame.model.*;
 import edu.csc413.tankgame.view.*;
 
 import java.awt.event.ActionEvent;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Queue;
 
 public class GameDriver {
@@ -138,13 +138,18 @@ public class GameDriver {
                 entity.getY());
     }
 
-    public void takeDamage(Entity entity) {
+    private void takeDamage(Entity entity) {
         entity.setHealth(entity.getHealth()-1);
         if(entity.getHealth() == 0){
             gameWorld.removeEntity(entity.getId());
             bigExplosion(entity);
             entity.deletionBehavior(gameWorld);
-        }//endgame if player, gameworld.deleteenenmy if enemy
+        }
+    }
+
+    private void removeShell(Entity shell){
+        gameWorld.removeEntity(shell.getId());
+        smallExplosion(shell);
     }
 
     private Pair findLeast(Entity entity1, Entity entity2) {
@@ -193,8 +198,7 @@ public class GameDriver {
             }
         } else if (entity1 instanceof Tank && entity2 instanceof Shell) {
             takeDamage(entity1);
-            gameWorld.removeEntity(entity2.getId());
-            smallExplosion(entity2);
+            removeShell(entity2);
         } else if (entity1 instanceof Tank && entity2 instanceof Wall) {
             Pair pair = findLeast(entity1, entity2);
             double smallest = pair.getLeft();
@@ -215,29 +219,30 @@ public class GameDriver {
                     entity2.getX(),
                     entity2.getY());
         } else if (entity1 instanceof Shell && entity2 instanceof Shell) {
-            gameWorld.removeEntity(entity1.getId());
-            smallExplosion(entity1);
-            gameWorld.removeEntity(entity2.getId());
-            smallExplosion(entity2);
-        } else if (entity1 instanceof Shell && entity2 instanceof Wall) {
-            gameWorld.removeEntity(entity1.getId());
-            smallExplosion(entity1);
+            removeShell(entity1);
+            removeShell(entity2);
+        }  else if (entity1 instanceof Shell && entity2 instanceof Wall) {
+            removeShell(entity1);
             takeDamage(entity2);
         }
-
-//        else if (entity1 instanceof Wall && entity2 instanceof Shell) {
-//            ((Shell) entity2).removeShell(gameWorld, runGameView);
-//            entity1.takeDamage(gameWorld, runGameView);
-//        } else if (entity1 instanceof Wall && entity2 instanceof Tank) {
-//            Pair pair = findLeast(entity1, entity2);
-//            double smallest = pair.getLeft();
-//            switch (pair.getRight()) {
-//                case "left" -> entity2.setX(entity2.getX() - smallest);
-//                case "right" -> entity2.setX(entity2.getX() + smallest);
-//                case "up" -> entity2.setY(entity2.getY() - smallest);
-//                case "down" -> entity2.setY(entity2.getY() + smallest);
-//            }
-//        }
+        else if (entity1 instanceof Shell && entity2 instanceof Tank) {
+            removeShell(entity1);
+            takeDamage(entity2);
+        }
+        else if (entity1 instanceof Wall && entity2 instanceof Shell) {
+            removeShell(entity2);
+            takeDamage(entity1);
+        }
+        else if (entity1 instanceof Wall && entity2 instanceof Tank) {
+            Pair pair = findLeast(entity2, entity1);
+            double smallest = pair.getLeft();
+            switch (pair.getRight()) {
+                case "left" -> entity2.setX(entity2.getX() - smallest);
+                case "right" -> entity2.setX(entity2.getX() + smallest);
+                case "up" -> entity2.setY(entity2.getY() - smallest);
+                case "down" -> entity2.setY(entity2.getY() + smallest);
+            }
+        }
     }
 
     /**
@@ -265,7 +270,9 @@ public class GameDriver {
 //            }
 //        }
         //#2. temporary list in addEntity
-        for (Entity entity : gameWorld.getEntities()) {
+        List<Entity> entityList = gameWorld.getEntities();
+        int start = 1;
+        for (Entity entity : entityList) {
             entity.move(gameWorld);
             if (gameWorld.getEndGame()) {
                 return false;
@@ -282,40 +289,17 @@ public class GameDriver {
                     smallExplosion(entity);
                 }
             }
-            HashSet<Entity> collided = new HashSet<>();
-            for (Entity entity2 : gameWorld.getEntities()) {//.subList(start, end)
-                if (entity2 == entity) {
-                    continue;
-                }
-                if (entity.entitiesOverlap(entity2) && !collided.contains(entity2)) {
+            int end = entityList.size();
+            for (Entity entity2 : entityList.subList(start, end)) {//start after current entity
+//                if (entity2 == entity) {
+//                    continue;
+//                }
+                if (entity.entitiesOverlap(entity2)) {
                     handleCollision(entity, entity2);
-                    collided.add(entity2);
                 }
             }
+            start++;
         }
-
-//        int end = gameWorld.getEntities().size();
-//        for(int i = 0; i < end; i++){
-//            Entity entity = gameWorld.getEntities().get(i);
-//            entity.move(gameWorld);
-//            if (gameWorld.getEndGame()) {
-//                return false;
-//            }
-//            if (entity.outOfBoundsX(gameWorld)) {
-//                entity.boundaryBehavior(gameWorld, runGameView);
-//            }
-//            if (entity.outOfBoundsY(gameWorld)) {
-//                entity.boundaryBehavior(gameWorld, runGameView);
-//            }
-//            HashSet<Entity> collided = new HashSet<>();
-//            for(int j = i + 1; j < end; j++){
-//                Entity entity2 = gameWorld.getEntities().get(j);
-//                if (entity.entitiesOverlap(entity2) && !collided.contains(entity2)) {
-//                    handleCollision(entity, entity2);
-//                    collided.add(entity2);
-//                }
-//            }
-//        }
 
         Queue<Shell> shellQueue = gameWorld.getShellQueue();
         while (!shellQueue.isEmpty()) {

@@ -1,7 +1,6 @@
 package edu.csc413.tankgame.model;
 
 import edu.csc413.tankgame.Constants;
-import edu.csc413.tankgame.view.RunGameView;
 
 public class Wall extends Entity {
     public Wall(String id, double x, double y) {
